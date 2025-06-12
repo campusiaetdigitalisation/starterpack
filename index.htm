@@ -58,9 +58,10 @@
 
       const baserowToken = "v1nQsfeV9x1fXbpr0FUB4XB6TbwOzsVz";
       const tableId = 571923;
+fetch("https://api.baserow.io/api/database/rows/table/571923/?user_field_names=true", {
 
       // Envoie les données à Baserow
-      await fetch(`https://api.baserow.io/api/database/rows/table/${tableId}/`, {
+      await fetch("https://api.baserow.io/api/database/rows/table/571923/?user_field_names=true", {
         method: "POST",
         headers: {
           "Authorization": `Token ${baserowToken}`,
