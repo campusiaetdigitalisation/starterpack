@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,29 +11,38 @@
     h1 { color: #222; text-align: center; }
     label { display: block; margin-top: 15px; font-weight: bold; }
     input, select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
-    button { background-color: #007BFF; color: black; border: none; cursor: pointer; }
+    button { background-color: #007BFF; color: white; border: none; cursor: pointer; }
     button:hover { background-color: #0056b3; }
-    .note { font-size: 0.9em; color: #555; margin-top: 28px; font-weight: bold; }
+    .note { font-size: 0.9em; color: #555; margin-top: 20px;font-weight: bold; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>⭐ Obtiens ton Starter Pack Digital Gratuit</h1>
-    <form action="#" method="POST">
+    <form id="starterForm">
       <label for="name">Prénom</label>
       <input type="text" id="name" name="name" required>
 
       <label for="email">Adresse email</label>
       <input type="email" id="email" name="email" required>
-
-      <label for="ville">Ville</label>
+        <label for="ville">Ville</label>
       <input type="email" id="ville" name= required>
         
       <label for="tel">N° de téléphone</label >
       <input type="email" id="email" name="tel" required>
- <button type="submit">Télécharger mon Starter Pack</button>
+
+      <label for="metier">Choisis ton métier digital :</label>
+      <select id="metier" name="metier" required>
+        <option value="affiliation">Affilié Digital</option>
+        <option value="contenu_ia">Créateur de contenu IA</option>
+        <option value="automatisation">Freelance automatisateur</option>
+        <option value="social">Social Media Manager</option>
+        <option value="email">Email Marketer</option>
+      </select>
+
+      <button type="submit">Télécharger mon Starter Pack</button>
     </form>
-    <p class="note">* En soumettant ce formulaire, tu recevras immédiatement ton guide + des conseils exclusifs par email.</p>
+    <p align="center" class="note">* En soumettant ce formulaire, tu recevras immédiatement ton guide + des conseils exclusifs par email.</p>
   </div>
 
   <script>
