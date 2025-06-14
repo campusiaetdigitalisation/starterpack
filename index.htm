@@ -49,55 +49,73 @@
 
   <script>
     document.getElementById('starterForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
+  e.preventDefault();
 
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const ville = document.getElementById('ville').value;
-      const tel = document.getElementById('tel').value;
-      const metier = document.getElementById('metier').value;
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const ville = document.getElementById('ville').value;
+  const tel = document.getElementById('tel').value;
+  const metier = document.getElementById('metier').value;
 
-      const baserowToken = "v1nQsfeV9x1fXbpr0FUB4XB6TbwOzsVz";
-      const tableId = 571923;
+  const baserowToken = "v1nQsfeV9x1fXbpr0FUB4XB6TbwOzsVz";
+  const tableId = 571923;
 
-      const payload = {
-        "Nom": name,
-        "Email": email,
-        "Ville": ville,
-        "Téléphone": tel,
-        "Métier": metier
-      };
-
-      try {
-        const response = await fetch(`https://api.baserow.io/api/database/rows/table/${tableId}/?user_field_names=true`, {
-          method: "POST",
-          headers: {
-            "Authorization": `Token ${baserowToken}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) throw new Error(`Erreur Baserow: ${response.status}`);
-        const result = await response.json();
-        console.log("✅ Données envoyées à Baserow :", result);
-      } catch (error) {
-        console.error("❌ Une erreur est survenue :", error);
-        alert("Erreur lors de l’envoi. Merci de réessayer.");
-        return;
+  // Étape 1 – Compter les lignes existantes pour générer un numéro unique
+  let numeroDossier = "Dossier-001"; // valeur par défaut
+  try {
+    const countRes = await fetch(`https://api.baserow.io/api/database/rows/table/${tableId}/?user_field_names=true`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Token ${baserowToken}`
       }
-
-      // Redirection vers le bon PDF
-      const pdfUrls = {
-        affiliation: 'https://campusiaetdigitalisation.github.io/starterpack/a_starterpack.pdf',
-        contenu_ia: 'https://campusiaetdigitalisation.github.io/starterpack/ct_starterpack.pdf',
-        automatisation: 'https://campusiaetdigitalisation.github.io/starterpack/fa_starterpack.pdf',
-        social: 'https://campusiaetdigitalisation.github.io/starterpack/smm_starterpack.pdf',
-        email: 'https://campusiaetdigitalisation.github.io/starterpack/m_starterpack.pdf'
-      };
-
-      window.location.href = pdfUrls[metier];
     });
+    const countData = await countRes.json();
+    const totalCount = countData.count + 1; // nouvelle ligne = +1
+    numeroDossier = `Dossier-${String(totalCount).padStart(3, '0')}`;
+  } catch (err) {
+    console.warn("⚠️ Impossible de compter les lignes, dossier par défaut utilisé");
+  }
+
+  // Étape 2 – Préparer les données à envoyer
+  const payload = {
+    "Nom": name,
+    "Email": email,
+    "Ville": ville,
+    "Téléphone": tel,
+    "Métier": metier,
+    "Numéro de dossier": numeroDossier
+  };
+
+  try {
+    const response = await fetch(`https://api.baserow.io/api/database/rows/table/${tableId}/?user_field_names=true`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Token ${baserowToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) throw new Error(`Erreur Baserow: ${response.status}`);
+    const result = await response.json();
+    console.log("✅ Données envoyées à Baserow :", result);
+  } catch (error) {
+    console.error("❌ Une erreur est survenue :", error);
+    alert("Erreur lors de l’envoi. Merci de réessayer.");
+    return;
+  }
+
+  // Redirection vers le PDF
+  const pdfUrls = {
+    affiliation: 'https://campusiaetdigitalisation.github.io/starterpack/a_starterpack.pdf',
+    contenu_ia: 'https://campusiaetdigitalisation.github.io/starterpack/ct_starterpack.pdf',
+    automatisation: 'https://campusiaetdigitalisation.github.io/starterpack/fa_starterpack.pdf',
+    social: 'https://campusiaetdigitalisation.github.io/starterpack/smm_starterpack.pdf',
+    email: 'https://campusiaetdigitalisation.github.io/starterpack/m_starterpack.pdf'
+  };
+
+  window.location.href = pdfUrls[metier];
+});
   </script>
 </body>
 </html>
