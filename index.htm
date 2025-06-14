@@ -58,7 +58,7 @@
 
       const baserowToken = "v1nQsfeV9x1fXbpr0FUB4XB6TbwOzsVz";
       const tableId = 571923;
-fetch("https://api.baserow.io/api/database/rows/table/571923/?user_field_names=true", {
+
 
       // Envoie les données à Baserow
       await fetch("https://api.baserow.io/api/database/rows/table/571923/?user_field_names=true", {
@@ -82,19 +82,19 @@ fetch("https://api.baserow.io/api/database/rows/table/571923/?user_field_names=t
       let url = '';
       switch (metier) {
         case 'affiliation':
-          url = 'https://campusiaetdigitalisation.github.io/starterpack/Starter_Pack_Affilie_Digital.pdf';
+          url = 'https://campusiaetdigitalisation.github.io/starterpack/a_starterpack.pdf';
           break;
         case 'contenu_ia':
-          url = 'https://campusiaetdigitalisation.github.io/starterpack/Starter_Pack_Createur_de_contenu_IA.pdf';
+          url = 'https://campusiaetdigitalisation.github.io/starterpack/ct_starterpack.pdf';
           break;
         case 'automatisation':
-          url = 'https://campusiaetdigitalisation.github.io/starterpack/Starter_Pack_Freelance_automatisateur.pdf';
+          url = 'https://campusiaetdigitalisation.github.io/starterpack/fa_starterpack.pdf';
           break;
         case 'social':
-          url = 'https://campusiaetdigitalisation.github.io/starterpack/Starter_Pack_Social_Media_Manager.pdf';
+          url = 'https://campusiaetdigitalisation.github.io/starterpack/smm_starterpack.pdf';
           break;
         case 'email':
-          url = 'https://campusiaetdigitalisation.github.io/starterpack/Starter_Pack_Email_Marketer.pdf';
+          url = 'https://campusiaetdigitalisation.github.io/starterpack/m_starterpack.pdf';
           break;
       }
 
