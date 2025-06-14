@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Obtiens ton Starter Pack Digital</title>
   <style>
     body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
@@ -21,16 +20,16 @@
     <h1>⭐ Obtiens ton Starter Pack Digital Gratuit</h1>
     <form id="starterForm">
       <label for="name">Prénom</label>
-      <input type="text" id="name" name="name" required>
+      <input type="text" id="name" name="name" required />
 
       <label for="email">Adresse email</label>
-      <input type="email" id="email" name="email" required>
+      <input type="email" id="email" name="email" required />
 
       <label for="ville">Ville</label>
-      <input type="text" id="ville" name="ville" required>
+      <input type="text" id="ville" name="ville" required />
 
       <label for="tel">N° de téléphone</label>
-      <input type="text" id="tel" name="tel" required>
+      <input type="text" id="tel" name="tel" required />
 
       <label for="metier">Choisis ton métier digital :</label>
       <select id="metier" name="metier" required>
@@ -59,47 +58,43 @@
       const baserowToken = "v1nQsfeV9x1fXbpr0FUB4XB6TbwOzsVz";
       const tableId = 571923;
 
+      const payload = {
+        "Nom": name,
+        "Email": email,
+        "Ville": ville,
+        "Téléphone": tel,
+        "Métier": metier
+      };
 
-      // Envoie les données à Baserow
-      await fetch("https://api.baserow.io/api/database/rows/table/571923/?user_field_names=true", {
-        method: "POST",
-        headers: {
-          "Authorization": `Token ${baserowToken}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          "Nom": name,
-          "Email": email,
-          "Ville": ville,
-          "Téléphone": tel,
-          "Métier": metier
-        })
-      }).then(res => res.json())
-        .then(data => console.log("✅ Données envoyées à Baserow :", data))
-        .catch(err => console.error("❌ Erreur Baserow :", err));
+      try {
+        const response = await fetch(`https://api.baserow.io/api/database/rows/table/${tableId}/?user_field_names=true`, {
+          method: "POST",
+          headers: {
+            "Authorization": `Token ${baserowToken}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
 
-      // Téléchargement du bon PDF selon le métier choisi
-      let url = '';
-      switch (metier) {
-        case 'affiliation':
-          url = 'https://campusiaetdigitalisation.github.io/starterpack/a_starterpack.pdf';
-          break;
-        case 'contenu_ia':
-          url = 'https://campusiaetdigitalisation.github.io/starterpack/ct_starterpack.pdf';
-          break;
-        case 'automatisation':
-          url = 'https://campusiaetdigitalisation.github.io/starterpack/fa_starterpack.pdf';
-          break;
-        case 'social':
-          url = 'https://campusiaetdigitalisation.github.io/starterpack/smm_starterpack.pdf';
-          break;
-        case 'email':
-          url = 'https://campusiaetdigitalisation.github.io/starterpack/m_starterpack.pdf';
-          break;
+        if (!response.ok) throw new Error(`Erreur Baserow: ${response.status}`);
+        const result = await response.json();
+        console.log("✅ Données envoyées à Baserow :", result);
+      } catch (error) {
+        console.error("❌ Une erreur est survenue :", error);
+        alert("Erreur lors de l’envoi. Merci de réessayer.");
+        return;
       }
 
-      // Redirection vers le PDF
-      window.location.href = url;
+      // Redirection vers le bon PDF
+      const pdfUrls = {
+        affiliation: 'https://campusiaetdigitalisation.github.io/starterpack/a_starterpack.pdf',
+        contenu_ia: 'https://campusiaetdigitalisation.github.io/starterpack/ct_starterpack.pdf',
+        automatisation: 'https://campusiaetdigitalisation.github.io/starterpack/fa_starterpack.pdf',
+        social: 'https://campusiaetdigitalisation.github.io/starterpack/smm_starterpack.pdf',
+        email: 'https://campusiaetdigitalisation.github.io/starterpack/m_starterpack.pdf'
+      };
+
+      window.location.href = pdfUrls[metier];
     });
   </script>
 </body>
